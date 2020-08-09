@@ -33,7 +33,7 @@
     "pluralize": "8.0.0",
     "prop-types": "15.7.2",
     "ra-data-opencrud": "0.0.7",
-    "ra-data-prisma": "file:../ra-data-prisma",
+    "ra-data-prisma": "https://github.com/warren922/ra-data-prisma.git",
     "ra-i18n-polyglot": "3.4.0",
     "ra-language-chinese-traditional": "1.0.0",
     "ra-language-english": "3.4.0",
@@ -54,8 +54,8 @@
     "react-window": "^1.8.5",
     "react-window-infinite-loader": "^1.0.5",
     "recharts": "1.8.5",
-    "supplier-ms-react-heatmap": "file:../supplier-ms-react-heatmap",
-    "supplier-ms-react-workflow": "file:../supplier-ms-react-workflow"
+    "supplier-ms-react-heatmap": "https://gitlab.com/youcodia-freelance/supplier-ms-react-heatmap.git",
+    "supplier-ms-react-workflow": "https://gitlab.com/youcodia-freelance/supplier-ms-react-workflow.git"
   },
   "scripts": {
     "generate": "plop --plopfile internals/generators/index.js",
