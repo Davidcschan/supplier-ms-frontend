@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "/supplier-ms-frontend/static/css/main.34de6062.chunk.css",
+    "main.js": "/supplier-ms-frontend/static/js/main.9394f4c6.chunk.js",
+    "main.js.map": "/supplier-ms-frontend/static/js/main.9394f4c6.chunk.js.map",
+    "runtime-main.js": "/supplier-ms-frontend/static/js/runtime-main.0d7d3472.js",
+    "runtime-main.js.map": "/supplier-ms-frontend/static/js/runtime-main.0d7d3472.js.map",
+    "static/css/2.d74e8006.chunk.css": "/supplier-ms-frontend/static/css/2.d74e8006.chunk.css",
+    "static/js/2.d3d4dee0.chunk.js": "/supplier-ms-frontend/static/js/2.d3d4dee0.chunk.js",
+    "static/js/2.d3d4dee0.chunk.js.map": "/supplier-ms-frontend/static/js/2.d3d4dee0.chunk.js.map",
+    "static/js/3.d5a6b417.chunk.js": "/supplier-ms-frontend/static/js/3.d5a6b417.chunk.js",
+    "static/js/3.d5a6b417.chunk.js.map": "/supplier-ms-frontend/static/js/3.d5a6b417.chunk.js.map",
+    "static/js/4.4f87332f.chunk.js": "/supplier-ms-frontend/static/js/4.4f87332f.chunk.js",
+    "static/js/4.4f87332f.chunk.js.map": "/supplier-ms-frontend/static/js/4.4f87332f.chunk.js.map",
+    "static/js/5.b99b4ef1.chunk.js": "/supplier-ms-frontend/static/js/5.b99b4ef1.chunk.js",
+    "static/js/5.b99b4ef1.chunk.js.map": "/supplier-ms-frontend/static/js/5.b99b4ef1.chunk.js.map",
+    "static/js/6.6dbc2c24.chunk.js": "/supplier-ms-frontend/static/js/6.6dbc2c24.chunk.js",
+    "static/js/6.6dbc2c24.chunk.js.map": "/supplier-ms-frontend/static/js/6.6dbc2c24.chunk.js.map",
+    "static/js/7.c520052d.chunk.js": "/supplier-ms-frontend/static/js/7.c520052d.chunk.js",
+    "static/js/7.c520052d.chunk.js.map": "/supplier-ms-frontend/static/js/7.c520052d.chunk.js.map",
+    "static/js/8.d4937990.chunk.js": "/supplier-ms-frontend/static/js/8.d4937990.chunk.js",
+    "static/js/8.d4937990.chunk.js.map": "/supplier-ms-frontend/static/js/8.d4937990.chunk.js.map",
+    "index.html": "/supplier-ms-frontend/index.html",
+    "precache-manifest.3708e9987c0a2efa67f5cfbf0325e638.js": "/supplier-ms-frontend/precache-manifest.3708e9987c0a2efa67f5cfbf0325e638.js",
+    "service-worker.js": "/supplier-ms-frontend/service-worker.js",
+    "static/css/2.d74e8006.chunk.css.map": "/supplier-ms-frontend/static/css/2.d74e8006.chunk.css.map",
+    "static/css/main.34de6062.chunk.css.map": "/supplier-ms-frontend/static/css/main.34de6062.chunk.css.map",
+    "static/js/2.d3d4dee0.chunk.js.LICENSE.txt": "/supplier-ms-frontend/static/js/2.d3d4dee0.chunk.js.LICENSE.txt",
+    "static/media/template.csv": "/supplier-ms-frontend/static/media/template.8b755b7f.csv"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0d7d3472.js",
+    "static/css/2.d74e8006.chunk.css",
+    "static/js/2.d3d4dee0.chunk.js",
+    "static/css/main.34de6062.chunk.css",
+    "static/js/main.9394f4c6.chunk.js"
+  ]
+}
