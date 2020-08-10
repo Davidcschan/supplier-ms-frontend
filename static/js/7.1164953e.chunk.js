@@ -1,0 +1,2 @@
+(this["webpackJsonpsupplier-ms-admin"]=this["webpackJsonpsupplier-ms-admin"]||[]).push([[7],{1238:function(e,s,t){"use strict";t.r(s),s.default={ra:{action:{delete:"Delete",show:"Show",list:"List",save:"Save",create:"Create",edit:"Edit",cancel:"Cancel"}}}}}]);
+//# sourceMappingURL=7.1164953e.chunk.js.map
