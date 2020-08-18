@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Create,
   Edit,
@@ -7,29 +7,29 @@ import {
   Datagrid,
   Show,
   SimpleShowLayout,
-
-
   EditButton,
   DeleteButton,
-
   TextField,
-
   TextInput,
+  required,
+  FormDataConsumer,
+  ShowController,
+  ShowView,
+} from "react-admin";
+import { useDispatch } from "react-redux";
+import { setBreadcrumbs } from "../../redux/breadcrumbs";
 
-  required, FormDataConsumer, ShowController, ShowView,
-} from 'react-admin';
-import { useDispatch } from 'react-redux';
-import { setBreadcrumbs } from '../../redux/breadcrumbs';
+const redirect = () => "/CustomerGroup";
+const breadcrumbBase = { url: "/CustomerGroup", label: "CustomerGroup" };
 
-const redirect = () => '/CustomerGroup';
-const breadcrumbBase = { url: '/CustomerGroup', label: 'CustomerGroup' };
-
-export const CustomerGroupCreate = props => {
+export const CustomerGroupCreate = (props) => {
   const dispatch = useDispatch();
-  dispatch(setBreadcrumbs([
-    breadcrumbBase,
-    { url: '/CustomerGroup/create', label: 'Create New' },
-  ]));
+  dispatch(
+    setBreadcrumbs([
+      breadcrumbBase,
+      { url: "/CustomerGroup/create", label: "Create New" },
+    ])
+  );
   return (
     <Create {...props}>
       <SimpleForm variant="standard" redirect={redirect}>
@@ -37,9 +37,9 @@ export const CustomerGroupCreate = props => {
       </SimpleForm>
     </Create>
   );
-}
+};
 
-export const CustomerGroupEdit = props => {
+export const CustomerGroupEdit = (props) => {
   const dispatch = useDispatch();
   return (
     <Edit {...props}>
@@ -47,23 +47,36 @@ export const CustomerGroupEdit = props => {
         <TextInput source="name" validate={required()} />
         <FormDataConsumer>
           {({ formData }) => {
-            dispatch(setBreadcrumbs([breadcrumbBase, { url: `/CustomerGroup/${formData.id}`, label: `Edit: ${formData.name}` }]));
+            dispatch(
+              setBreadcrumbs([
+                breadcrumbBase,
+                {
+                  url: `/CustomerGroup/${formData.id}`,
+                  label: `Edit: ${formData.name}`,
+                },
+              ])
+            );
             return null;
           }}
         </FormDataConsumer>
       </SimpleForm>
     </Edit>
   );
-}
+};
 
-export const CustomerGroupShow = props => {
+export const CustomerGroupShow = (props) => {
   const dispatch = useDispatch();
   return (
     <ShowController {...props}>
-      {controllerProps => {
-        const label = controllerProps.record ? controllerProps.record.name : '';
-        const id = controllerProps.record ? controllerProps.record.id : '';
-        dispatch(setBreadcrumbs([breadcrumbBase, { url: `/CustomerGroup/${id}/show`, label: `Details: ${label}` }]));
+      {(controllerProps) => {
+        const label = controllerProps.record ? controllerProps.record.name : "";
+        const id = controllerProps.record ? controllerProps.record.id : "";
+        dispatch(
+          setBreadcrumbs([
+            breadcrumbBase,
+            { url: `/CustomerGroup/${id}/show`, label: `Details: ${label}` },
+          ])
+        );
         return (
           <ShowView {...props} {...controllerProps}>
             <SimpleShowLayout>
@@ -76,11 +89,11 @@ export const CustomerGroupShow = props => {
   );
 };
 
-export const CustomerGroupList = props => {
+export const CustomerGroupList = (props) => {
   const dispatch = useDispatch();
   dispatch(setBreadcrumbs([breadcrumbBase]));
   return (
-    <List {...props}>
+    <List {...props} exporter={false}>
       <Datagrid rowClick="show">
         <TextField source="name" />
         <EditButton />

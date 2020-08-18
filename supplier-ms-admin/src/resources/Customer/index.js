@@ -254,7 +254,11 @@ export const CustomerList = (props) => {
   const dispatch = useDispatch();
   dispatch(setBreadcrumbs([breadcrumbBase]));
   return (
-    <List {...props} sort={{ field: "createdAt", order: "DESC" }}>
+    <List
+      {...props}
+      sort={{ field: "createdAt", order: "DESC" }}
+      exporter={false}
+    >
       <Datagrid rowClick="show">
         <TextField source="code" />
         <BilingualField source="name" />

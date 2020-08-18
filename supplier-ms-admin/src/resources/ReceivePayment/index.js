@@ -42,6 +42,7 @@ export const ReceivePaymentCreate = (props) => {
           label="Invoice"
           source="invoiceId"
           reference="Invoice"
+          filter={{ state: "DELIVERED" }}
           sort={{ field: "createdAt", order: "DESC" }}
         >
           <SelectInput optionText="code" label="Receive Payment No." />
@@ -134,7 +135,11 @@ export const ReceivePaymentList = (props) => {
   const dispatch = useDispatch();
   dispatch(setBreadcrumbs([breadcrumbBase]));
   return (
-    <List {...props} sort={{ field: "createdAt", order: "DESC" }}>
+    <List
+      {...props}
+      sort={{ field: "createdAt", order: "DESC" }}
+      exporter={false}
+    >
       <Datagrid rowClick="show">
         <ReferenceField label="Invoice" reference="Invoice" source="invoice.id">
           <TextField source="code" label="Receive Payment No." />

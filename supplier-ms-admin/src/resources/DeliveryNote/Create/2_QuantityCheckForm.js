@@ -107,7 +107,15 @@ export default () => {
               const record = products.reduce((results, p) => {
                 // flatten product
                 const { product, ...other } = p;
-                results[product.id] = { ...product, ...other };
+                const quantity = !!results[product.id]
+                  ? results[product.id].quantity
+                  : 0;
+                console.log("quantity!!!: ", quantity);
+                results[product.id] = {
+                  ...product,
+                  ...other,
+                  quantity: p.quantity + quantity,
+                };
                 return results;
               }, {});
               // merge selected items
@@ -122,6 +130,7 @@ export default () => {
                 record[productId].selectedNum =
                   record[productId].selected.length;
               });
+              console.log("record: ", record);
 
               return (
                 <Grid container spacing={2}>

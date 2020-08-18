@@ -2,7 +2,7 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 
-import buildGraphQLProvider from "ra-data-prisma";
+import buildGraphQLProvider from "@tsunadon/ra-data-prisma";
 
 /**
  * Convert a `File` object returned by the upload input into a base 64 string.

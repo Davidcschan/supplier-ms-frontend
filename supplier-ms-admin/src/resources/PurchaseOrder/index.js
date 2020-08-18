@@ -79,6 +79,7 @@ export const PurchaseOrderList = (props) => {
   return (
     <List
       {...props}
+      exporter={false}
       filterDefaultValues={{ state_not: "DELETED" }}
       sort={{ field: "createdAt", order: "DESC" }}
     >

@@ -78,6 +78,7 @@ export const InvoiceList = (props) => {
   return (
     <List
       {...props}
+      exporter={false}
       filterDefaultValues={{ state_not: "DELETED" }}
       sort={{ field: "createdAt", order: "DESC" }}
     >
