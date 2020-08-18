@@ -1,0 +1,47 @@
+{
+    "name": "@ygn_projc_admin/ra-data-prisma",
+    "version": "1.0.2",
+    "description": "A GraphQL simple data provider for react-admin",
+    "main": "src/index.js",
+    "module": "esm/index.js",
+    "sideEffects": false,
+    "bugs": {
+        "url": "https://github.com/marmelab/react-admin/issues"
+    },
+    "homepage": "https://github.com/marmelab/react-admin#readme",
+    "authors": [
+        "Gildas Garcia"
+    ],
+    "keywords": [
+        "reactjs",
+        "react",
+        "react-admin",
+        "admin-on-rest",
+        "rest",
+        "graphql"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "build": "npm run build-cjs && npm run build-esm",
+        "build-cjs": "rimraf ./lib && tsc",
+        "build-esm": "rimraf ./esm && tsc --outDir esm --module es2015",
+        "watch": "rimraf ./lib && tsc --watch"
+    },
+    "dependencies": {
+        "graphql-ast-types-browser": "~1.0.2",
+        "graphql-tag": "^2.10.1",
+        "lodash": "~4.17.15",
+        "pluralize": "~8.0.0",
+        "ra-data-graphql": "^3.0.2"
+    },
+    "peerDependencies": {
+        "graphql": "^14.5.8",
+        "ra-core": "^3.1.1"
+    },
+    "devDependencies": {
+        "cross-env": "^6.0.3",
+        "graphql": "^14.5.8",
+        "rimraf": "^3.0.0",
+        "tsc": "^1.20150623.0"
+    }
+}
