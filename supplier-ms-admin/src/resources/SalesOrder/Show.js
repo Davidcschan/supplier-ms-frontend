@@ -1,3 +1,4 @@
+import React from "react";
 import { useHistory } from "react-router-dom";
 import {
   DateField,
@@ -12,12 +13,11 @@ import {
   useTranslate,
   ShowController,
   ShowView,
+  SelectField,
 } from "react-admin";
-import Button from "@material-ui/core/Button";
 import { Add, Edit, Print } from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
-import React from "react";
-import Grid from "@material-ui/core/Grid";
+import { Grid, Menu, MenuItem, Button } from "@material-ui/core";
 import BilingualField from "../../components/BilingualField";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -33,6 +33,8 @@ const GET_SC = gql`
       subtotal
       grandTotal
       discountAmount
+      discount
+      couponDiscount
       state
       shippingDate
       shop {
@@ -51,7 +53,9 @@ const GET_SC = gql`
       products {
         id
         totalPrice
+        discountAmount
         product {
+          code
           nameEn
           id
           code
@@ -67,6 +71,7 @@ export const SalesOrderShow = ({ permissions, ...props }) => {
   const dispatch = useDispatch();
   const translate = useTranslate();
   const history = useHistory();
+  const [anchorEl, setAnchorEl] = React.useState(null);
   console.log("SalesOrder Show", props);
   const toEdit = () => {
     const { id } = props;
@@ -79,6 +84,7 @@ export const SalesOrderShow = ({ permissions, ...props }) => {
     console.log(po);
     console.log(e);
   };
+  console.log("dataHERE!!:", data);
 
   const toCreateItem = () => {
     const { id } = props;
@@ -91,6 +97,14 @@ export const SalesOrderShow = ({ permissions, ...props }) => {
   //   (data && data.salesOrder.state !== "PAID") || permissions === "admin";
   let isPaid = true;
   isPaid = data && data.salesOrder.state === "PAID";
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Grid container spacing={2}>
       <Grid item xs={9}>
@@ -173,6 +187,7 @@ export const SalesOrderShow = ({ permissions, ...props }) => {
                     source="shippingDate"
                     label="Sales Order Shipping Date"
                   />
+                  <TextField source="remark" label="Remarks" />
                   <DateField source="createdAt" />
                   <DateField source="updatedAt" />
                 </SimpleShowLayout>
@@ -218,6 +233,67 @@ export const SalesOrderShow = ({ permissions, ...props }) => {
             </SimpleShowLayout>
           </Show>
         </Grid>
+        {!!data ? (
+          <Grid item>
+            <Button
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              More Detail
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>
+                <Grid container spacing={6} justify="space-between">
+                  <Grid item>
+                    <Typography variant="inherit">
+                      Order Special offer
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="inherit">
+                      {`HK$${data.salesOrder.discount}`}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Grid container spacing={6} justify="space-between">
+                  <Grid item>
+                    <Typography variant="inherit">Coupon Cash</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="inherit">
+                      {`HK$${data.salesOrder.couponDiscount}`}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </MenuItem>
+              {data.salesOrder.products.map((item) => (
+                <MenuItem onClick={handleClose}>
+                  <Grid container spacing={6} justify="space-between">
+                    <Grid item>
+                      <Typography variant="inherit">
+                        {item.product.code}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="inherit">
+                        {`HK$${Math.round(item.discountAmount * 100) / 100}`}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Grid>
+        ) : null}
         <Grid item>
           <Typography variant="h6">Grand Total Price</Typography>
           <Show actions={<React.Fragment />} {...props}>
@@ -249,12 +325,12 @@ export const SalesOrderShow = ({ permissions, ...props }) => {
       <Grid item xs={12}>
         <Typography variant="h6">
           {translate("salesOrder.products")}&nbsp;
-          {/* {!isPaid ? (
+          {!isPaid ? (
             <Button color="primary" size="small" onClick={toCreateItem}>
               <Add />
               &nbsp;{translate("common.create")}
             </Button>
-          ) : null} */}
+          ) : null}
         </Typography>
         <Show actions={<React.Fragment />} {...props}>
           <ReferenceArrayField
@@ -288,9 +364,7 @@ export const SalesOrderShow = ({ permissions, ...props }) => {
                 source="totalPrice"
                 options={{ style: "currency", currency: "HKD" }}
               />
-              {/* {!isPaid ? (
-                <EditButton />
-              ) : null} */}
+              {!isPaid ? <EditButton /> : null}
             </Datagrid>
           </ReferenceArrayField>
         </Show>

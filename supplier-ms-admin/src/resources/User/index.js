@@ -178,6 +178,7 @@ export const UserList = (props) => {
   return (
     <List
       {...props}
+      exporter={false}
       hasCreate={permissions === "admin" || permissions === "superadmin"}
       sort={{ field: "createdAt", order: "DESC" }}
       filterDefaultValues={

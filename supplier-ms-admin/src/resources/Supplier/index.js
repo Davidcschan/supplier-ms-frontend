@@ -1,5 +1,24 @@
 import React from "react";
-import { Create, Edit, SimpleForm, List, Datagrid, Show, SimpleShowLayout, EditButton, DeleteButton, TextField, EmailField, DateField, TextInput, required, email, FormDataConsumer, ShowController, ShowView } from "react-admin";
+import {
+  Create,
+  Edit,
+  SimpleForm,
+  List,
+  Datagrid,
+  Show,
+  SimpleShowLayout,
+  EditButton,
+  DeleteButton,
+  TextField,
+  EmailField,
+  DateField,
+  TextInput,
+  required,
+  email,
+  FormDataConsumer,
+  ShowController,
+  ShowView,
+} from "react-admin";
 import { useDispatch } from "react-redux";
 import { setBreadcrumbs } from "../../redux/breadcrumbs";
 
@@ -8,7 +27,12 @@ const breadcrumbBase = { url: "/Supplier", label: "Supplier" };
 
 export const SupplierCreate = (props) => {
   const dispatch = useDispatch();
-  dispatch(setBreadcrumbs([breadcrumbBase, { url: "/Supplier/create", label: "Create New" }]));
+  dispatch(
+    setBreadcrumbs([
+      breadcrumbBase,
+      { url: "/Supplier/create", label: "Create New" },
+    ])
+  );
   return (
     <Create {...props}>
       <SimpleForm variant="standard" redirect={redirect}>
@@ -38,7 +62,15 @@ export const SupplierEdit = (props) => {
         <TextInput source="creditLine" />
         <FormDataConsumer>
           {({ formData }) => {
-            dispatch(setBreadcrumbs([breadcrumbBase, { url: `/Supplier/${formData.id}`, label: `Edit: ${formData.name}` }]));
+            dispatch(
+              setBreadcrumbs([
+                breadcrumbBase,
+                {
+                  url: `/Supplier/${formData.id}`,
+                  label: `Edit: ${formData.name}`,
+                },
+              ])
+            );
             return null;
           }}
         </FormDataConsumer>
@@ -54,7 +86,12 @@ export const SupplierShow = (props) => {
       {(controllerProps) => {
         const label = controllerProps.record ? controllerProps.record.name : "";
         const id = controllerProps.record ? controllerProps.record.id : "";
-        dispatch(setBreadcrumbs([breadcrumbBase, { url: `/Supplier/${id}/show`, label: `Details: ${label}` }]));
+        dispatch(
+          setBreadcrumbs([
+            breadcrumbBase,
+            { url: `/Supplier/${id}/show`, label: `Details: ${label}` },
+          ])
+        );
         return (
           <ShowView {...props} {...controllerProps}>
             <SimpleShowLayout>
@@ -79,7 +116,11 @@ export const SupplierList = (props) => {
   const dispatch = useDispatch();
   dispatch(setBreadcrumbs([breadcrumbBase]));
   return (
-    <List {...props} sort={{ field: "createdAt", order: "DESC" }}>
+    <List
+      {...props}
+      sort={{ field: "createdAt", order: "DESC" }}
+      exporter={false}
+    >
       <Datagrid rowClick="show">
         <TextField source="name" />
         <EmailField source="email" />

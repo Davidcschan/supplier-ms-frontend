@@ -114,6 +114,7 @@ export const UserGroupList = (props) => {
   return (
     <List
       {...props}
+      exporter={false}
       hasCreate={permissions === "superadmin"}
       sort={{ field: "name", order: "DESC" }}
       filterDefaultValues={

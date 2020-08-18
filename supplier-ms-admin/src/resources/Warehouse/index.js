@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Create,
   Edit,
@@ -7,73 +7,87 @@ import {
   Datagrid,
   Show,
   SimpleShowLayout,
-
-
   EditButton,
   DeleteButton,
-
   TextField,
-
   TextInput,
   RadioButtonGroupInput,
+  required,
+  FormDataConsumer,
+  ShowController,
+  ShowView,
+} from "react-admin";
+import { useDispatch } from "react-redux";
+import { setBreadcrumbs } from "../../redux/breadcrumbs";
 
-  required, FormDataConsumer, ShowController, ShowView,
-} from 'react-admin';
-import { useDispatch } from 'react-redux';
-import { setBreadcrumbs } from '../../redux/breadcrumbs';
+const redirect = () => "/Warehouse";
+const breadcrumbBase = { url: "/Warehouse", label: "Warehouse" };
 
-const redirect = () => '/Warehouse';
-const breadcrumbBase = { url: '/Warehouse', label: 'Warehouse' };
-
-export const WarehouseCreate = props => {
+export const WarehouseCreate = (props) => {
   const dispatch = useDispatch();
-  dispatch(setBreadcrumbs([
-    breadcrumbBase,
-    { url: '/Warehouse/create', label: 'Create New' },
-  ]));
+  dispatch(
+    setBreadcrumbs([
+      breadcrumbBase,
+      { url: "/Warehouse/create", label: "Create New" },
+    ])
+  );
   return (
     <Create {...props}>
-      <SimpleForm  variant="standard" redirect={redirect}>
+      <SimpleForm variant="standard" redirect={redirect}>
         <TextInput source="name" validate={required()} />
         <TextInput source="description" />
         <TextInput source="address" />
-        <RadioButtonGroupInput source="type" choices={[
-          { id: 'NORMAL', name: 'Normal' },
-          { id: 'TEMPORARY', name: 'Temporary' },
-        ]} />
+        <RadioButtonGroupInput
+          source="type"
+          choices={[
+            { id: "NORMAL", name: "Normal" },
+            { id: "TEMPORARY", name: "Temporary" },
+          ]}
+        />
       </SimpleForm>
     </Create>
   );
-}
+};
 
-export const WarehouseEdit = props => {
+export const WarehouseEdit = (props) => {
   const dispatch = useDispatch();
   return (
     <Edit {...props}>
-      <SimpleForm  variant="standard" redirect={redirect}>
+      <SimpleForm variant="standard" redirect={redirect}>
         <TextInput source="name" validate={required()} />
         <TextInput source="description" />
         <TextInput source="address" />
-        <RadioButtonGroupInput source="type" choices={[
-          { id: 'NORMAL', name: 'Normal' },
-          { id: 'TEMPORARY', name: 'Temporary' },
-        ]} />
+        <RadioButtonGroupInput
+          source="type"
+          choices={[
+            { id: "NORMAL", name: "Normal" },
+            { id: "TEMPORARY", name: "Temporary" },
+          ]}
+        />
         <FormDataConsumer>
           {({ formData }) => {
-            dispatch(setBreadcrumbs([breadcrumbBase, { url: `/Warehouse/${formData.id}`, label: `Edit: ${formData.name}` }]));
+            dispatch(
+              setBreadcrumbs([
+                breadcrumbBase,
+                {
+                  url: `/Warehouse/${formData.id}`,
+                  label: `Edit: ${formData.name}`,
+                },
+              ])
+            );
             return null;
           }}
         </FormDataConsumer>
       </SimpleForm>
     </Edit>
   );
-}
+};
 
-export const WarehouseList = props => {
+export const WarehouseList = (props) => {
   const dispatch = useDispatch();
   dispatch(setBreadcrumbs([breadcrumbBase]));
   return (
-    <List {...props}>
+    <List {...props} exporter={false}>
       <Datagrid rowClick="show">
         <TextField source="name" />
         <TextField source="description" />
@@ -84,16 +98,21 @@ export const WarehouseList = props => {
       </Datagrid>
     </List>
   );
-}
+};
 
-export const WarehouseShow = props => {
+export const WarehouseShow = (props) => {
   const dispatch = useDispatch();
   return (
     <ShowController {...props}>
-      {controllerProps => {
-        const label = controllerProps.record ? controllerProps.record.name : '';
-        const id = controllerProps.record ? controllerProps.record.id : '';
-        dispatch(setBreadcrumbs([breadcrumbBase, { url: `/CustomerGroup/${id}/show`, label: `Details: ${label}` }]));
+      {(controllerProps) => {
+        const label = controllerProps.record ? controllerProps.record.name : "";
+        const id = controllerProps.record ? controllerProps.record.id : "";
+        dispatch(
+          setBreadcrumbs([
+            breadcrumbBase,
+            { url: `/CustomerGroup/${id}/show`, label: `Details: ${label}` },
+          ])
+        );
         return (
           <ShowView {...props} {...controllerProps}>
             <SimpleShowLayout>
@@ -108,4 +127,4 @@ export const WarehouseShow = props => {
       }}
     </ShowController>
   );
-}
+};

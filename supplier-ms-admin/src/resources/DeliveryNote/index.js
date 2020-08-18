@@ -123,7 +123,11 @@ export const DeliveryNoteList = (props) => {
   dispatch(setBreadcrumbs([breadcrumbBase]));
   console.log(props);
   return (
-    <List {...props} sort={{ field: "createdAt", order: "DESC" }}>
+    <List
+      {...props}
+      sort={{ field: "createdAt", order: "DESC" }}
+      exporter={false}
+    >
       <Datagrid rowClick="show">
         <TextField source="code" />
         <ReferenceField

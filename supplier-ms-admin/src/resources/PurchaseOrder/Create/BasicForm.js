@@ -12,6 +12,8 @@ import { PO_FREEZE_STATE } from "../constants";
 
 function BasicForm({ formData, setFormData, permissions }) {
   const translate = useTranslate();
+  const today = new Date();
+
   return (
     <form noValidate>
       <Grid container spacing={2}>
@@ -37,6 +39,7 @@ function BasicForm({ formData, setFormData, permissions }) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <DatePicker
+            minDate={today}
             inputVariant="filled"
             fullWidth
             value={formData.expectedDeliveryAt}

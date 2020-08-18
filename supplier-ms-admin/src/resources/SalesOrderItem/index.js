@@ -1,31 +1,41 @@
-import React, { useCallback, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
 import {
+  Box,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TextField,
+} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import gql from "graphql-tag";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  AutocompleteInput,
+  Create,
+  Edit,
+  FormDataConsumer,
+  FunctionField,
+  NumberInput,
+  ReferenceField,
+  ReferenceInput,
+  required,
   SaveButton,
+  SelectInput,
+  SimpleForm,
   Toolbar,
   useCreate,
   useNotify,
-  Create,
-  SimpleForm,
-  AutocompleteInput,
-  NumberInput,
-  ReferenceInput,
-  SelectInput,
-  Edit,
-  FormDataConsumer,
-  ReferenceFieldController,
-  TextInput,
-  required,
   useTranslate,
 } from "react-admin";
 import { useFormState } from "react-final-form";
 import { useDispatch } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 import { addBreadcrumbs } from "../../redux/breadcrumbs";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
-import { TextField, Grid } from "@material-ui/core";
 
 const SaveItemButton = (props) => {
   const [create] = useCreate("SalesOrderItem");
@@ -39,6 +49,21 @@ const SaveItemButton = (props) => {
 
   const formState = useFormState();
   console.log("formState", formState);
+
+  const calculateDiscount = (formData, product) => {
+    if (product.discount) {
+      if (product.discount.includes("%")) {
+        const percent = 1 - parseFloat(product.discount) / 100;
+        return parseFloat(formData.price) / percent;
+      } else if (product.discount.includes("HKD")) {
+        const discountAmount = parseFloat(product.discount.replace("HKD", ""));
+        return parseFloat(formData.price) + discountAmount;
+      }
+    } else {
+      return parseFloat(formData.price);
+    }
+  };
+
   const handleClick = useCallback(() => {
     if (!formState.valid) {
       return;
@@ -46,6 +71,8 @@ const SaveItemButton = (props) => {
     const { product, ...formValues } = formState.values;
     const quantity = parseInt(formValues.quantity, 10);
     const price = parseFloat(formValues.price);
+    const wholeSalePrice = calculateDiscount(formValues, product);
+    console.log("wholeSalePrice: ", wholeSalePrice);
 
     delete formValues.customer;
     console.log("product: ", product);
@@ -55,7 +82,9 @@ const SaveItemButton = (props) => {
           data: {
             ...formValues,
             productId: product.id,
-            discount: product.discount,
+            discount: product.discount || "0%",
+            discountAmount: wholeSalePrice * quantity - price * quantity,
+            wholeSalePrice,
             totalPrice: quantity * price,
           },
         },
@@ -235,21 +264,6 @@ const UPDATE_SALES_ORDER_ITEM = gql`
   }
 `;
 
-const calculateDiscount = (formData) => {
-  // if (formData.discount) {
-  //   if (formData.discount.includes("%")) {
-  //     const percent = 1 - parseFloat(formData.discount) / 100;
-  //     return parseFloat(formData.price) * percent;
-  //   } else if (formData.discount.includes("HKD")) {
-  //     const discountAmount = parseFloat(formData.discount.replace("HKD", ""));
-  //     return parseFloat(formData.price) - discountAmount;
-  //   }
-  // } else {
-  //   return parseFloat(formData.price);
-  // }
-  return parseFloat(formData.wholeSalePrice) - parseFloat(formData.price);
-};
-
 const SaveEditButton = (props) => {
   const history = useHistory();
   const [update] = useMutation(UPDATE_SALES_ORDER_ITEM);
@@ -261,7 +275,13 @@ const SaveEditButton = (props) => {
   const notify = useNotify();
 
   const formState = useFormState();
-  const { wholeSalePrice, salesOrder, price, quantity, id } = formState.values;
+  const {
+    wholeSalePrice,
+    price,
+    quantity,
+    id,
+    discountPercent,
+  } = formState.values;
 
   const handleClick = () => {
     console.log("formState: ", formState.values);
@@ -270,8 +290,8 @@ const SaveEditButton = (props) => {
         data: {
           price,
           quantity,
-          discount: `HKD${wholeSalePrice - price}`,
-          subPrice: wholeSalePrice,
+          wholeSalePrice,
+          discount: `${discountPercent}%`,
         },
         where: { id },
       },
@@ -297,10 +317,89 @@ const SalesOrderItemEditToolBar = (props) => (
 );
 
 export const SalesOrderItemEdit = (props) => {
+  const [wholesalePlan, setWholesalePlan] = useState(1);
+  const [product, setProduct] = useState();
+  const [selectBtn, setSelectBtn] = useState();
+
+  console.log("loggin the props: ", props);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (wholesalePlan) {
+      console.log("change btn!!");
+      setSelectBtn(wholesalePlan - 1);
+    }
+    // if (!product) {
+    //   setProduct(product);
+    // }
+  }, wholesalePlan);
+  console.log("productproductproductproductproduct: ", product);
+
+  const saveWholesalesPlan = (record) => {
+    setWholesalePlan(record.wholesalePlan - 1);
+    return `${record.wholesalePlan}`;
+  };
+  const selectedProduct = (record) => {
+    console.log("Product: ", record);
+    setProduct(record);
+    return `${record.code}`;
+  };
+
+  const renderBtnGroup = (formData) => {
+    const wholeSalePriceList = [
+      product.wholeSalePrice1,
+      product.wholeSalePrice2,
+      product.wholeSalePrice3,
+      product.wholeSalePrice4,
+      product.wholeSalePrice5,
+    ];
+    console.log("render Btn Group: selectBtn", selectBtn);
+    formData.wholeSalePrice = wholeSalePriceList[selectBtn];
+
+    return (
+      <ButtonGroup>
+        {wholeSalePriceList.map((price, index) => (
+          <Button
+            key={index}
+            onClick={() => {
+              setSelectBtn(index);
+              formData.wholeSalePrice = price;
+              console.log(price);
+            }}
+            color={selectBtn == index ? "secondary" : undefined}
+            variant="contained"
+          >
+            <Grid container>
+              <Grid item>
+                <h3>{`wholeSalePrice ${index + 1}`}</h3>
+              </Grid>
+              <Grid item>
+                <h3>{`Price: ${price}`}</h3>
+              </Grid>
+            </Grid>
+          </Button>
+        ))}
+      </ButtonGroup>
+    );
+  };
+
   return (
     <Edit {...props}>
       <SimpleForm variant="standard" toolbar={<SalesOrderItemEditToolBar />}>
+        <ReferenceField
+          label="Customer Whole Sale Plan"
+          source="salesOrder.id"
+          reference="SalesOrder"
+        >
+          <ReferenceField source="shop.id" reference="CustomerShop">
+            <ReferenceField source="customer.id" reference="Customer">
+              <FunctionField
+                label="wholesalePlan"
+                render={(record) => saveWholesalesPlan(record)}
+              />
+            </ReferenceField>
+          </ReferenceField>
+        </ReferenceField>
         <ReferenceInput
           label="Sales Order"
           source="salesOrder.id"
@@ -308,12 +407,18 @@ export const SalesOrderItemEdit = (props) => {
         >
           <SelectInput disabled optionText="code" label="Sales Order No." />
         </ReferenceInput>
-        <ReferenceInput label="Product" source="product.id" reference="Product">
-          <SelectInput disabled optionText="code" label="Sales Order No." />
-        </ReferenceInput>
+        <ReferenceField label="Product" source="product.id" reference="Product">
+          <FunctionField
+            label="Code"
+            render={(record) => selectedProduct(record)}
+          />
+        </ReferenceField>
         <NumberInput source="quantity" />
-        <NumberInput source="wholeSalePrice" validate={required()} />
-        <NumberInput source="price" inputText={NumberInput} />
+        <NumberInput
+          label="Discount Percent off: "
+          source="discountPercent"
+          validate={[required()]}
+        />
         <FormDataConsumer>
           {({ formData }) => {
             dispatch(
@@ -322,10 +427,60 @@ export const SalesOrderItemEdit = (props) => {
                 label: `Edit`,
               })
             );
+            console.log("formData::DEBUG", formData);
+            formData.price =
+              formData.wholeSalePrice *
+              (1 - (formData.discountPercent || 0) / 100);
+            console.log(formData.price);
+
             return (
-              <h2>
-                Discount Amount(HKD): {formData.wholeSalePrice - formData.price}
-              </h2>
+              <Grid container direction="column">
+                <Grid item>{product && renderBtnGroup(formData)}</Grid>
+
+                <Box maxWidth="25%">
+                  <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                      <TableBody>
+                        <TableRow key={1}>
+                          <TableCell align="left">Wholesale Price</TableCell>
+
+                          <TableCell align="right">
+                            {formData.wholeSalePrice}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow key={1}>
+                          <TableCell align="left">
+                            Discounted Amount(HKD)
+                          </TableCell>
+                          <TableCell align="right">
+                            {`-${
+                              Math.round(
+                                (formData.wholeSalePrice - formData.price) * 100
+                              ) / 100
+                            }`}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow key={1}>
+                          <TableCell align="left">Price(HKD)</TableCell>
+
+                          <TableCell align="right">
+                            {Math.round(formData.price * 100) / 100}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow key={1} color>
+                          <TableCell align="left">Total Price(HKD)</TableCell>
+
+                          <TableCell align="right">
+                            {Math.round(
+                              formData.price * formData.quantity * 100
+                            ) / 100}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+              </Grid>
             );
           }}
         </FormDataConsumer>

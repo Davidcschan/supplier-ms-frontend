@@ -146,7 +146,7 @@ export const ProductList = (props) => {
   const dispatch = useDispatch();
   dispatch(setBreadcrumbs([breadcrumbBase]));
   return (
-    <List {...props}>
+    <List {...props} exporter={false}>
       <Datagrid rowClick="show">
         <TextField source="code" label="Product No." />
         <BilingualField source="name" />

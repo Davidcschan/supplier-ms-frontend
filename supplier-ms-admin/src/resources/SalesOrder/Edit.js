@@ -13,6 +13,7 @@ import {
   useUpdate,
   useNotify,
   FormDataConsumer,
+  NumberInput,
 } from "react-admin";
 import { useFormState } from "react-final-form";
 import { useDispatch } from "react-redux";
@@ -66,7 +67,7 @@ const MySaveButton = (props) => {
     edit(
       {
         payload: {
-          data: { ...formValues },
+          data: { ...formValues, discount: formValues.discount || 0 },
           previousData: record,
         },
       },
@@ -103,6 +104,7 @@ export const SalesOrderEdit = (props) => {
           choices={[
             { id: "RECEIVED", name: translate("common.received") },
             { id: "CONFIRMED", name: translate("common.confirmed") },
+            { id: "INVOICED", name: "INVOICED" },
             { id: "PACKED", name: translate("common.packed") },
             { id: "SHIPPED", name: translate("common.shipped") },
             { id: "DELIVERED", name: translate("common.delivered") },
@@ -110,6 +112,7 @@ export const SalesOrderEdit = (props) => {
             { id: "DELETED", name: translate("common.deleted") },
           ]}
         />
+        <NumberInput label="Order Special offer(HKD)" source="discount" />
         <FormDataConsumer>
           {({ formData }) => {
             dispatch(

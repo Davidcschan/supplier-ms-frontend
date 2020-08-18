@@ -1,5 +1,4 @@
 {
-  "homepage": "http://Davidcschan.github.io/supplier-ms-frontend",
   "name": "supplier-ms-admin",
   "version": "0.1.0",
   "license": "UNLICENSED",
@@ -12,6 +11,9 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.47",
     "@material-ui/pickers": "3.2.10",
+    "@tsunadon/ra-data-prisma": "0.0.1",
+    "@tsunadon/supplier-ms-react-heatmap": "0.0.2",
+    "@tsunadon/supplier-ms-react-workflow": "0.0.1",
     "antd": "^4.4.0",
     "apollo-boost": "^0.4.7",
     "apollo-cache-inmemory": "^1.6.6",
@@ -33,7 +35,6 @@
     "pluralize": "8.0.0",
     "prop-types": "15.7.2",
     "ra-data-opencrud": "0.0.7",
-    "ra-data-prisma": "https://github.com/warren922/ra-data-prisma.git",
     "ra-i18n-polyglot": "3.4.0",
     "ra-language-chinese-traditional": "1.0.0",
     "ra-language-english": "3.4.0",
@@ -53,16 +54,13 @@
     "react-swipeable-views": "0.13.3",
     "react-window": "^1.8.5",
     "react-window-infinite-loader": "^1.0.5",
-    "recharts": "1.8.5",
-    "supplier-ms-react-heatmap": "https://gitlab.com/youcodia-freelance/supplier-ms-react-heatmap.git",
-    "supplier-ms-react-workflow": "https://gitlab.com/youcodia-freelance/supplier-ms-react-workflow.git"
+    "recharts": "1.8.5"
   },
   "scripts": {
     "generate": "plop --plopfile internals/generators/index.js",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gcloud app deploy --project petgo-management-system",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

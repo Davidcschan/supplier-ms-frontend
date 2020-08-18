@@ -83,16 +83,13 @@ function BasicForm({ formData, setFormData }) {
                 setFormData({ ...formData, state: e.target.value })
               }
             >
-              {[
-                { id: "DRAFT", name: translate("common.draft") },
-                { id: "APPROVED", name: translate("common.approved") },
-                { id: "CONFIRMED", name: translate("common.confirmed") },
-                { id: "DELETED", name: translate("common.deleted") },
-              ].map((d) => (
-                <MenuItem key={`POSelect${d.id}`} value={d.id}>
-                  {d.name}
-                </MenuItem>
-              ))}
+              {[{ id: "CONFIRMED", name: translate("common.confirmed") }].map(
+                (d) => (
+                  <MenuItem key={`POSelect${d.id}`} value={d.id}>
+                    {d.name}
+                  </MenuItem>
+                )
+              )}
             </Select>
           </FormControl>
         </Grid>

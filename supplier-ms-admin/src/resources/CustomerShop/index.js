@@ -43,11 +43,21 @@ export const CustomerShopCreate = (props) => {
   const { loading: fetching, data } = useQuery(GET_CUSTOMER, {});
   console.log("data", data && data);
   const dispatch = useDispatch();
-  dispatch(setBreadcrumbs([breadcrumbBase, { url: "/CustomerShop/create", label: "Create New" }]));
+  dispatch(
+    setBreadcrumbs([
+      breadcrumbBase,
+      { url: "/CustomerShop/create", label: "Create New" },
+    ])
+  );
   return (
     <Create {...props}>
       <SimpleForm variant="standard" redirect={redirect}>
-        <ReferenceInput label="Customer" source="customer.id" reference="Customer" perPage={data && data.customers.length}>
+        <ReferenceInput
+          label="Customer"
+          source="customer.id"
+          reference="Customer"
+          perPage={data && data.customers.length}
+        >
           <SelectInput optionText={optionRenderer} validate={required()} />
         </ReferenceInput>
         <TextInput label="Shop No." source="code" validate={required()} />
@@ -76,7 +86,7 @@ export const CustomerShopEdit = (props) => {
   const dispatch = useDispatch();
   return (
     <Edit {...props}>
-      <SimpleForm variant="standard" >
+      <SimpleForm variant="standard">
         <TextInput source="nameChi" />
         <TextInput source="nameEn" />
         <TextInput source="phone" />
@@ -95,7 +105,15 @@ export const CustomerShopEdit = (props) => {
         />
         <FormDataConsumer>
           {({ formData }) => {
-            dispatch(setBreadcrumbs([breadcrumbBase, { url: `/CustomerShop/${formData.id}`, label: `Edit: ${formData.name}` }]));
+            dispatch(
+              setBreadcrumbs([
+                breadcrumbBase,
+                {
+                  url: `/CustomerShop/${formData.id}`,
+                  label: `Edit: ${formData.name}`,
+                },
+              ])
+            );
             return null;
           }}
         </FormDataConsumer>
@@ -131,11 +149,23 @@ export const CustomerShopShow = (props) => {
     <ShowController {...props}>
       {(controllerProps) => {
         const id = controllerProps.record ? controllerProps.record.id : "";
-        dispatch(setBreadcrumbs([breadcrumbBase, { url: `/CustomerShop/${id}/show`, label: `Details` }]));
+        dispatch(
+          setBreadcrumbs([
+            breadcrumbBase,
+            { url: `/CustomerShop/${id}/show`, label: `Details` },
+          ])
+        );
         return (
           <ShowView {...props} {...controllerProps}>
             <SimpleShowLayout>
-              <ReferenceField label="Customer" source="customer.id" reference="Customer" link={(customer, referece) => `/Customer/${customer.customer.id}/show`}>
+              <ReferenceField
+                label="Customer"
+                source="customer.id"
+                reference="Customer"
+                link={(customer, referece) =>
+                  `/Customer/${customer.customer.id}/show`
+                }
+              >
                 <BilingualField source="name" />
               </ReferenceField>
               <TextField label="Shop No." source="code" />
@@ -143,7 +173,18 @@ export const CustomerShopShow = (props) => {
               <TextField source="nameEn" />
               <TextField source="phone" />
               <TextField source="deliverAddress" />
-              <FunctionField label="Delivery Day" source="deliveryDay" render={(shop) => shop.deliveryDay.map((day, index) => `${getWeekDay(day)}${index === shop.deliveryDay.length - 1 ? "." : ","}`)} />
+              <FunctionField
+                label="Delivery Day"
+                source="deliveryDay"
+                render={(shop) =>
+                  shop.deliveryDay.map(
+                    (day, index) =>
+                      `${getWeekDay(day)}${
+                        index === shop.deliveryDay.length - 1 ? "." : ","
+                      }`
+                  )
+                }
+              />
             </SimpleShowLayout>
           </ShowView>
         );
@@ -156,7 +197,7 @@ export const CustomerShopList = (props) => {
   const dispatch = useDispatch();
   dispatch(setBreadcrumbs([breadcrumbBase]));
   return (
-    <List {...props} title="Customer Shop">
+    <List {...props} title="Customer Shop" exporter={false}>
       <Datagrid rowClick="show">
         <TextField label="Shop No." source="code" />
         <TextField source="nameChi" />

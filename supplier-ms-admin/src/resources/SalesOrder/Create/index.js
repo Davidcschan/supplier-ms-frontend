@@ -162,6 +162,20 @@ export default () => {
     }, 0);
   };
 
+  const calculateSubPriceForItem = (p) => {
+    if (p.discount) {
+      if (p.discount.includes("%")) {
+        const percent = 1 - parseFloat(p.discount) / 100;
+        return parseFloat(p.price) / percent;
+      } else if (p.discount.includes("HKD")) {
+        const discountAmount = parseFloat(p.discount.replace("HKD", ""));
+        return parseFloat(p.price) + discountAmount;
+      }
+    } else {
+      return 0;
+    }
+  };
+
   const handleSave = () => {
     const grandTotal = calculateTotalPrice();
     const subtotal = calculateSubTotalPrice();
@@ -174,9 +188,16 @@ export default () => {
       shopId: formData.customerShop.id,
       products: {
         create: formData.products.map((p) => ({
+          discount: p.discount || `0%`,
           productId: p.id,
           quantity: parseInt(p.quantity, 10),
           price: parseFloat(p.price),
+          discountAmount:
+            calculateSubPriceForItem(p) == 0
+              ? 0
+              : calculateSubPriceForItem(p) * parseFloat(p.quantity) -
+                parseFloat(p.quantity) * parseFloat(p.price),
+          wholeSalePrice: calculateSubPriceForItem(p),
           totalPrice: parseFloat(p.quantity) * parseFloat(p.price),
         })),
       },

@@ -244,7 +244,8 @@ function InvoiceSelector({ formProps }) {
           reference="Invoice"
           resource="DeliveryNote"
           validate={required()}
-          filterToQuery={(searchText) => ({ code_contains: searchText })}
+          // filterToQuery={(searchText) => ({ code_contains: searchText })}
+          filter={{ state: "CONFIRMED" }}
           sort={{ field: "createdAt", order: "DESC" }}
         >
           <SelectInput optionText="code" fullWidth label="Invoice No." />
