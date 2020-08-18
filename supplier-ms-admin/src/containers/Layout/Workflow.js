@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import pluralize from "pluralize";
 import { withRouter } from "react-router-dom";
-import { Workflow, WorkflowItem } from "@tsunadon/supplier-ms-react-workflow";
+import { Workflow, WorkflowItem } from "supplier-ms-react-workflow";
 
 const Menu = ({ location, history }) => {
   const open = useSelector((state) => state.admin.ui.sidebarOpen);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import pluralize from "pluralize";
 import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
-import { WorkflowColors } from "@tsunadon/supplier-ms-react-workflow";
+import { WorkflowColors } from "supplier-ms-react-workflow";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ThemeProvider,
